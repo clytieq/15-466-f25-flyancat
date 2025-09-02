@@ -1,22 +1,29 @@
-# (TODO: your game's title)
+# Flyan cat
 
-Author: (TODO: your name)
+Author: Clytie Qiu
 
-Design: (TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+Design:
+Partially inspired by Nyan cat-- guide a flying cat through obstacles.
 
-Screen Shot:
+Screen Shot: Base game sprites & palettes removed; PPU defaults shown.
 
 ![Screen Shot](screenshot.png)
 
 How Your Asset Pipeline Works:
 
-(TODO: describe the steps in your asset pipeline, from source files to tiles/backgrounds/whatever you upload to the PPU466.)
+Run `node MaekfileAssets.js` to build the asset pipeline executable. Run pipeline.exe once with the desired PNGs listed in `assets.cpp` to translate them into game compatible PPU sprite files.
 
-(TODO: make sure the source files you drew are included. You can [link](your/file.png) to them to be a bit fancier.)
+Tentative design:
+`assets.cpp` restructures each PNG into 8x8 chunks, saves bit-planes sequentially (i.e. will read in this order: bit0 of the first tile, bit1 of the first tile, bit 0 of the second tile, bit 1 of the second tile,...), and creates new palettes as needed. It will not be shipped in `dist`.
+
+The 8 (or less) Palettes will simply be 1x4 pix PNGs, saved (in processing) and loaded (in runtime) with load_save_png helpers.
+The tilemap will be translated to bit-planes and saved/loaded in binary.
+
+The developer must specify asset files in the runtime code. Note that the asset pipeline generates Palettes naively, without regard for the 8-Palette constraint imposed by the PPU.
 
 How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+Using the arrow keys, avoid obstacles for as long as possible.
 
 This game was built with [NEST](NEST.md).
 
