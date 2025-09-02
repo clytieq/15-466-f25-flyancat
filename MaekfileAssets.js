@@ -96,11 +96,11 @@ if (maek.OS === "windows") {
 // from: file to copy from
 // to: file to copy to
 let copies = [
-	maek.COPY(`${NEST_LIBS}/SDL3/dist/README-SDL.txt`, `dist/README-SDL.txt`),
-	maek.COPY(`${NEST_LIBS}/libpng/dist/README-libpng.txt`, `dist/README-libpng.txt`),
+	maek.COPY(`${NEST_LIBS}/SDL3/dist/README-SDL.txt`, `assets/pipeline/README-SDL.txt`),
+	maek.COPY(`${NEST_LIBS}/libpng/dist/README-libpng.txt`, `assets/pipeline/README-libpng.txt`),
 ];
 if (maek.OS === 'windows') {
-	copies.push( maek.COPY(`${NEST_LIBS}/SDL3/dist/SDL3.dll`, `dist/SDL3.dll`) );
+	copies.push(maek.COPY(`${NEST_LIBS}/SDL3/dist/SDL3.dll`, `assets/pipeline/SDL3.dll`) );
 }
 
 //call rules on the maek object to specify tasks.
@@ -111,26 +111,27 @@ if (maek.OS === 'windows') {
 // cppFile: name of c++ file to compile
 // objFileBase (optional): base name object file to produce (if not supplied, set to options.objDir + '/' + cppFile without the extension)
 //returns objFile: objFileBase + a platform-dependant suffix ('.o' or '.obj')
-const game_objs = [
+const pipeline_objs = [
 	maek.CPP('PlayMode.cpp'),
 	maek.CPP('PPU466.cpp'),
-	maek.CPP('main.cpp'),
+	//maek.CPP('main.cpp'),
 	maek.CPP('load_save_png.cpp'),
 	maek.CPP('Load.cpp'),
 	maek.CPP('data_path.cpp'),
 	maek.CPP('Mode.cpp'),
 	maek.CPP('gl_compile_program.cpp'),
 	maek.CPP('GL.cpp'),
+	maek.CPP('assets.cpp')
 ];
 
 //the '[exeFile =] LINK(objFiles, exeFileBase, [, options])' links an array of objects into an executable:
 // objFiles: array of objects to link
 // exeFileBase: name of executable file to produce
 //returns exeFile: exeFileBase + a platform-dependant suffix (e.g., '.exe' on windows)
-const game_exe = maek.LINK(game_objs, 'dist/game');
+const pipeline_exe = maek.LINK(pipeline_objs, 'assets/pipeline/pipeline');
 
 //set the default target to the game (and copy the readme files):
-maek.TARGETS = [game_exe, ...copies];
+maek.TARGETS = [pipeline_exe, ...copies];
 
 //======================================================================
 //Now, onward to the code that makes all this work:
